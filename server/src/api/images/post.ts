@@ -12,12 +12,12 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
         return;
       }
 
-      // const blob = bucket.file(req.file.originalname);
+      const blob = bucket.file(req.file.originalname);
 
-      // const blobStream = blob.createWriteStream({
-      //   resumable: false,
-      //   contentType: req.file.mimetype,
-      // });
+      const blobStream = blob.createWriteStream({
+        resumable: false,
+        contentType: req.file.mimetype,
+      });
 
       // blobStream.on("error", (error) => {
       //   res.status(INTERNAL_SERVER_ERROR).send({
@@ -31,7 +31,7 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
       //   res.status(OK).send({ url: publicUrl });
       // });
 
-      // blobStream.end(req.file.buffer);
+      blobStream.end(req.file.buffer);
 
       res.status(OK).send({ url: "www.example.com" });
     } catch (error) {
