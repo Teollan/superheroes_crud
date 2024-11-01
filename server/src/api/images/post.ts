@@ -27,13 +27,15 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
 
       blobStream.on("finish", async () => {
         //await blob.makePublic();
-        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+        const publicUrl = `https://storage.cloud.google.com/${bucket.name}/${blob.name}`;
         res.status(OK).send({ url: publicUrl });
       });
 
       blobStream.end(req.file.buffer);
     } catch (error) {
-      res.status(507).send({ error: "Unexpected error occurred" });
+      res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ error: "Unexpected error occurred" });
     }
   });
 }
