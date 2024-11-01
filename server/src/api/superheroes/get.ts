@@ -4,7 +4,9 @@ import { Error } from "../../lib/types";
 import { Pool } from "pg";
 
 export default function setup(app: Express, pool: Pool) {
-  app.get("/api/superheroes", async (_, res) => {
+  app.get("/api/superheroes", async (req, res) => {
+    const { page = 1 } = req.query;
+
     try {
       const result = await pool.query("SELECT * FROM superheroes ORDER BY id");
 

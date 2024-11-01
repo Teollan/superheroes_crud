@@ -11,13 +11,7 @@ import path from "path";
 
 const app = express();
 
-// Yea, I know it is a security risk...
-const storage = new Storage({
-  keyFilename: path.join(
-    __dirname,
-    "molten-aurora-440401-h9-820d6024c337.json"
-  ),
-});
+const storage = new Storage();
 
 const bucketName = "superheroes-crud-test";
 const bucket = storage.bucket(bucketName);
