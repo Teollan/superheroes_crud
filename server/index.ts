@@ -10,7 +10,11 @@ import { Storage } from "@google-cloud/storage";
 
 const app = express();
 
-const storage = new Storage();
+// Yea, I know it is a security risk...
+const storage = new Storage({
+  keyFilename: "./molten-aurora-440401-h9-820d6024c337.json",
+});
+
 const bucketName = "superheroes-crud-test";
 const bucket = storage.bucket(bucketName);
 
