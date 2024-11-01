@@ -3,7 +3,7 @@ import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from "../../lib/codes";
 import { Bucket } from "@google-cloud/storage";
 
 export default function setup(app: Express, bucket: Bucket) {
-  app.delete("api/images", async (req, res) => {
+  app.delete("/api/images", async (req, res) => {
     const { image } = req.body;
 
     try {

@@ -4,7 +4,7 @@ import { Multer } from "multer";
 import { Bucket } from "@google-cloud/storage";
 
 export default function setup(app: Express, upload: Multer, bucket: Bucket) {
-  app.post("api/images", upload.single("file"), async (req, res) => {
+  app.post("/api/images", upload.single("file"), async (req, res) => {
     try {
       if (!req.file) {
         res.status(BAD_REQUEST).send({ error: "No file uploaded." });
