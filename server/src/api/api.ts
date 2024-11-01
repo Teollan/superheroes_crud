@@ -17,7 +17,7 @@ export default function setupApi(
   multer: Multer,
   bucket: Bucket
 ) {
-  del(app, pool);
+  del(app, pool, bucket);
   getOne(app, pool);
   put(app, pool);
   getAll(app, pool);
