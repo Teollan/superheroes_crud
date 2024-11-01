@@ -7,12 +7,16 @@ import setupApi from "./src/api/api";
 import startServer from "./src/start";
 import multer from "multer";
 import { Storage } from "@google-cloud/storage";
+import path from "path";
 
 const app = express();
 
 // Yea, I know it is a security risk...
 const storage = new Storage({
-  keyFilename: "./molten-aurora-440401-h9-820d6024c337.json",
+  keyFilename: path.join(
+    __dirname,
+    "molten-aurora-440401-h9-820d6024c337.json"
+  ),
 });
 
 const bucketName = "superheroes-crud-test";
