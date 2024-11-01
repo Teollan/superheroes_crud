@@ -12,7 +12,7 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
         return;
       }
 
-      const blob = bucket.file(`${Date.now()}_${req.file.originalname}}`);
+      const blob = bucket.file(`${Date.now()}_${req.file.originalname}`);
 
       const blobStream = blob.createWriteStream({
         resumable: false,
@@ -26,7 +26,6 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
       });
 
       blobStream.on("finish", async () => {
-        //await blob.makePublic();
         const publicUrl = `https://storage.cloud.google.com/${bucket.name}/${blob.name}`;
         res.status(OK).send({ url: publicUrl });
       });
