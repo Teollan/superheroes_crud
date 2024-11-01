@@ -33,9 +33,7 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
 
       blobStream.end(req.file.buffer);
     } catch (error) {
-      res
-        .status(INTERNAL_SERVER_ERROR)
-        .send({ error: "Unexpected error occurred" });
+      res.status(507).send({ error: "Unexpected error occurred" });
     }
   });
 }
