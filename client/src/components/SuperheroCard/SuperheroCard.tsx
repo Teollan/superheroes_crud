@@ -32,7 +32,7 @@ export default function SuperheroCard({
       <article className="flex flex-col gap-2 rounded bg-slate-200 p-4">
         <div>
           <img
-            className="w-full aspect-square"
+            className="w-full aspect-square object-cover object-top"
             src={superhero.images[0]}
             alt={`Image of ${superhero.nickname}`}
           />

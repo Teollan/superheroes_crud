@@ -13,7 +13,7 @@ export default function NewPage() {
   };
 
   return (
-    <main className="flex flex-col gap-10 max-w-[600px]">
+    <main className="flex flex-col items-stretch gap-10 max-w-[600px]">
       <h1 className="text-5xl text-center">Create a new Superhero</h1>
 
       <SuperheroForm onSubmit={createSuperhero} />

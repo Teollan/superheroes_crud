@@ -44,9 +44,10 @@ function put<T, U>(endpoint: string, data: U): Promise<T> {
   });
 }
 
-function del<T>(endpoint: string): Promise<T> {
+function del<T, U>(endpoint: string, data?: U): Promise<T> {
   return request<T>(endpoint, {
     method: "DELETE",
+    body: data,
   });
 }
 

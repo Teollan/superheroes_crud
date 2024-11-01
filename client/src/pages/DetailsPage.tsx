@@ -42,14 +42,14 @@ export default function DetailsPage() {
           <div className="flex flex-col gap-2">
             <span className="text-2xl">Superpowers</span>
 
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row flex-wrap gap-2">
               {superhero.superpowers.length === 0 ? (
                 <span>No superpowers!</span>
               ) : (
                 superhero.superpowers.map((superpower, index) => (
                   <span
                     key={index}
-                    className="bg-cyan-500 rounded w-max px-2 py-1"
+                    className="bg-cyan-500 rounded w-max px-2 py-1 text-nowrap"
                   >
                     {superpower}
                   </span>
@@ -66,6 +66,7 @@ export default function DetailsPage() {
             ) : (
               <>
                 <img
+                  className="bg-slate-200"
                   src={superhero.images[imageIndex]}
                   alt={`Image of ${superhero.nickname}`}
                 />

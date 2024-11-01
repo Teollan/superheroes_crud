@@ -43,11 +43,16 @@ export default function ConfirmationInput({
         onChange={(event) => setValue(event.target.value)}
       />
 
-      <TextButton preset="good" onClick={handleConfirm} disabled={!value}>
+      <TextButton
+        preset="good"
+        type="button"
+        onClick={handleConfirm}
+        disabled={!value}
+      >
         {confirm}
       </TextButton>
 
-      <TextButton preset="bad" onClick={handleClear}>
+      <TextButton preset="bad" type="button" onClick={handleClear}>
         {clear}
       </TextButton>
     </div>

@@ -8,17 +8,35 @@ import Button from "../components/buttons";
 
 import { useNavigate } from "react-router-dom";
 
+type PaginatedData = {
+  info: {
+    page: number;
+    perpage: number;
+    total: number;
+  };
+  results: Superhero[];
+};
+
 export default function HomePage() {
   const navigate = useNavigate();
 
-  const [superheroes, setSuperheroes] = useState<Superhero[]>(null!);
+  const [superheroes, setSuperheroes] = useState<PaginatedData>(null!);
   const [page, setPage] = useState(1);
 
-  const pages = Math.ceil((superheroes?.length ?? 1) / 5);
+  const pages = Math.ceil(
+    (superheroes?.info.total ?? 1) / (superheroes?.info.perpage ?? 5)
+  );
 
   useEffect(() => {
-    api.get<Superhero[]>("superheroes/").then(setSuperheroes);
-  }, []);
+    api.get<PaginatedData>(`superheroes/?page=${page}`).then(setSuperheroes);
+  }, [page]);
+
+  const deleteSuperhero = async (id: Superhero["id"]) => {
+    await api.delete(`superheroes/${id}`);
+    await api
+      .get<PaginatedData>(`superheroes/?page=${page}`)
+      .then(setSuperheroes);
+  };
 
   return (
     <main className="flex flex-col gap-10 max-w-[1200px] w-full items-center">
@@ -26,17 +44,17 @@ export default function HomePage() {
 
       <div className="grid gap-2 grid-cols-5">
         {superheroes &&
-          superheroes.map((hero) => (
+          superheroes.results.map((hero) => (
             <SuperheroCard
               key={hero.id}
               superhero={hero}
               onEdit={() => navigate(`/edit/${hero.id}`)}
-              onDelete={() => api.delete(`superheroes/${hero.id}`)}
+              onDelete={() => deleteSuperhero(hero.id)}
             />
           ))}
       </div>
 
-      <Pagination page={page} pages={pages} onChange={() => {}} />
+      <Pagination page={page} pages={pages} onChange={setPage} />
 
       <Button.Text
         preset="good"

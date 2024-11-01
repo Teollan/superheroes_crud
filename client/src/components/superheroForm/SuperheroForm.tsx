@@ -4,6 +4,7 @@ import TokenList from "../tokenList/TokenList";
 import { Token } from "../../lib/types";
 import Button from "../buttons";
 import { SuperheroData } from "../../lib/types/Superhero";
+import api from "../../lib/fetch/api";
 
 type TextData = {
   nickname: string;
@@ -21,6 +22,8 @@ type SuperheroFormProps = {
   images?: string[];
 
   onSubmit?: (data: SuperheroData) => void;
+
+  edit?: boolean;
 };
 
 export default function SuperheroForm({
@@ -77,19 +80,36 @@ export default function SuperheroForm({
     setSuperpowers((prev) => prev.filter((token) => token.id !== id));
   };
 
-  const addImage = (image: File) => {
-    const url = URL.createObjectURL(image);
+  const addImage = async (image: File) => {
+    const data = new FormData();
+    data.append("file", image);
 
-    const newImage: Token<string> = {
-      data: url,
-      id: url,
-    };
+    try {
+      const res = await fetch(
+        "https://superheroes-crud.onrender.com/api/images/",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
 
-    setImages((prev) => [...prev, newImage]);
+      const { url } = await res.json();
+
+      const newImage: Token<string> = {
+        data: url,
+        id: url,
+      };
+
+      setImages((prev) => [...prev, newImage]);
+    } catch {
+      throw new Error("Failed to upload an image");
+    }
   };
 
   const removeImage = (id: Token<string>["id"]) => {
     setImages((prev) => prev.filter((token) => token.id !== id));
+
+    api.delete("images/", { image: id });
   };
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
@@ -106,7 +126,7 @@ export default function SuperheroForm({
   };
 
   return (
-    <form className="flex flex-col gap-5" onSubmit={submit}>
+    <form className="flex flex-col gap-5 w-full" onSubmit={submit}>
       <Input.Text
         name="nickname"
         label="Nickname"
@@ -164,11 +184,11 @@ export default function SuperheroForm({
           <TokenList
             tokens={images}
             render={({ data: image }) => (
-              <div className="max-w-[100px] max-h-[100px]">
+              <div className="min-w-[150px] max-h-[150px]">
                 <img
                   src={image}
                   alt={image}
-                  className="object-cover object-center"
+                  className="object-cover object-top w-full aspect-square max-w-[150px] bg-slate-200"
                 />
               </div>
             )}
@@ -178,7 +198,7 @@ export default function SuperheroForm({
           <span>No images available!</span>
         )}
 
-        <Input.Image name="images" onFileSelect={addImage} />
+        <Input.Image multiple name="images" onFileSelect={addImage} />
       </div>
 
       <Button.Text type="submit" className="text-xl" preset="good">
