@@ -8,7 +8,6 @@ import startServer from "./src/start";
 import multer from "multer";
 import { Storage } from "@google-cloud/storage";
 
-// dummy for commit
 const app = express();
 
 const serviceAccount = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS!);
