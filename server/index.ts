@@ -11,7 +11,10 @@ import path from "path";
 
 const app = express();
 
-const storage = new Storage();
+const storage = new Storage({
+  projectId: "molten-aurora-440401-h9",
+  keyFilename: "service-account.json",
+});
 
 const bucketName = "superheroes-crud-test";
 const bucket = storage.bucket(bucketName);
