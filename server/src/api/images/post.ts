@@ -26,7 +26,7 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
       });
 
       blobStream.on("finish", async () => {
-        await blob.makePublic();
+        //await blob.makePublic();
         const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
         res.status(OK).send({ url: publicUrl });
       });
