@@ -5,12 +5,21 @@ import createPool from "./src/pool";
 import setupMiddleware from "./src/middleware";
 import setupApi from "./src/api/api";
 import startServer from "./src/start";
+import multer from "multer";
+import { Storage } from "@google-cloud/storage";
+
+const app = express();
+
+const storage = new Storage();
+const bucketName = "superheroes-crud-test";
+const bucket = storage.bucket(bucketName);
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 createPool().then((pool) => {
-  const app = express();
-
   setupMiddleware(app);
-  setupApi(app, pool);
+
+  setupApi(app, pool, upload, bucket);
 
   startServer(app);
 });
