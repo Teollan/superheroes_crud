@@ -19,10 +19,12 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
         contentType: req.file.mimetype,
       });
 
-      blobStream.on("error", () => {
+      blobStream.on("error", (error) => {
         res
           .status(INTERNAL_SERVER_ERROR)
-          .send({ error: "Failed to upload file to GCS" });
+          .send({
+            error: `Failed to upload file to GCS. Reason: ${error.message}`,
+          });
       });
 
       blobStream.on("finish", async () => {
