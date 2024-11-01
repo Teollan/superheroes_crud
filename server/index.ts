@@ -12,9 +12,7 @@ const app = express();
 
 const serviceAccount = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS!);
 const storage = new Storage({ credentials: serviceAccount });
-
-const bucketName = "superheroes-crud-test";
-const bucket = storage.bucket(bucketName);
+const bucket = storage.bucket(process.env.BUCKET_NAME!);
 
 const upload = multer({ storage: multer.memoryStorage() });
 
