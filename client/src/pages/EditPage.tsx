@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import SuperheroForm from "../components/superheroForm/SuperheroForm";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Superhero, SuperheroData } from "../lib/types/Superhero";
 import api from "../lib/fetch/api";
 
 export default function EditPage() {
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   const [superhero, setSuperhero] = useState<Superhero | null>(null);
@@ -16,7 +18,10 @@ export default function EditPage() {
   const updateSuperhero = (data: SuperheroData) => {
     api
       .put<Superhero, SuperheroData>(`superheroes/${id}`, data)
-      .then(setSuperhero);
+      .then((updated) => {
+        setSuperhero(updated);
+        navigate(`/details/${updated.id}`);
+      });
   };
 
   return (

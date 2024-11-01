@@ -1,10 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import SuperheroForm from "../components/superheroForm/SuperheroForm";
 import api from "../lib/fetch/api";
-import { SuperheroData } from "../lib/types/Superhero";
+import { Superhero, SuperheroData } from "../lib/types";
 
 export default function NewPage() {
+  const navigate = useNavigate();
+
   const createSuperhero = (data: SuperheroData) => {
-    api.post("superheroes", data);
+    api
+      .post<Superhero, SuperheroData>("superheroes", data)
+      .then((created) => navigate(`/details/${created.id}`));
   };
 
   return (
