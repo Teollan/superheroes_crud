@@ -12,7 +12,7 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
         return;
       }
 
-      const blob = bucket.file(`${req.file.originalname}_${Date.now()}`);
+      const blob = bucket.file(`${Date.now()}_${req.file.originalname}}`);
 
       const blobStream = blob.createWriteStream({
         resumable: false,
