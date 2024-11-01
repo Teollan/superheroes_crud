@@ -20,18 +20,14 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
       });
 
       blobStream.on("error", (error) => {
-        res
-          .status(INTERNAL_SERVER_ERROR)
-          .send({
-            error: `Failed to upload file to GCS. Reason: ${error.message}`,
-          });
+        res.status(INTERNAL_SERVER_ERROR).send({
+          error: `Failed to upload file to GCS. Reason: ${error.message}`,
+        });
       });
 
       blobStream.on("finish", async () => {
         await blob.makePublic();
-        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${
-          blob.name
-        }_${Date.now()}`;
+        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
         res.status(OK).send({ url: publicUrl });
       });
 
