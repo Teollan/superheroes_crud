@@ -12,26 +12,28 @@ export default function setup(app: Express, upload: Multer, bucket: Bucket) {
         return;
       }
 
-      const blob = bucket.file(req.file.originalname);
+      // const blob = bucket.file(req.file.originalname);
 
-      const blobStream = blob.createWriteStream({
-        resumable: false,
-        contentType: req.file.mimetype,
-      });
+      // const blobStream = blob.createWriteStream({
+      //   resumable: false,
+      //   contentType: req.file.mimetype,
+      // });
 
-      blobStream.on("error", (error) => {
-        res.status(INTERNAL_SERVER_ERROR).send({
-          error: `Failed to upload file to GCS. Reason: ${error.message}`,
-        });
-      });
+      // blobStream.on("error", (error) => {
+      //   res.status(INTERNAL_SERVER_ERROR).send({
+      //     error: `Failed to upload file to GCS. Reason: ${error.message}`,
+      //   });
+      // });
 
-      blobStream.on("finish", async () => {
-        await blob.makePublic();
-        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-        res.status(OK).send({ url: publicUrl });
-      });
+      // blobStream.on("finish", async () => {
+      //   await blob.makePublic();
+      //   const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+      //   res.status(OK).send({ url: publicUrl });
+      // });
 
-      blobStream.end(req.file.buffer);
+      // blobStream.end(req.file.buffer);
+
+      res.status(OK).send({ url: "www.example.com" });
     } catch (error) {
       res.status(507).send({ error: "Unexpected error occurred" });
     }
