@@ -6,7 +6,7 @@ import { Pool } from "pg";
 export default function setup(app: Express, pool: Pool) {
   app.get("/api/superheroes", async (_, res) => {
     try {
-      const result = await pool.query("SELECT * FROM superheroes");
+      const result = await pool.query("SELECT * FROM superheroes ORDER BY id");
 
       res.status(OK).json(result.rows);
     } catch (e) {
